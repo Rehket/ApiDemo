@@ -12,7 +12,7 @@ def getenv_boolean(var_name, default_value=False):
     return result
 
 
-API_V1_STR = "/chat"
+API_V1_STR = "/v1"
 
 if supports_bytes_environ:
     from os import getenvb
