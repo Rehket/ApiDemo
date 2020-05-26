@@ -33,8 +33,11 @@ class ItemDatabase:
         """
         Example of a dummy database call that takes some time to execute using async syntax.
         """
-        pass
-
+        items = [item for item in self.item_db if item.id == item_id]
+        await asyncio.sleep(2)
+        if len(items) == 0:
+            raise KeyError(f"Item with Id: {item_id} not present in the database.")
+        return items[0]
 
 my_database = ItemDatabase()
 
@@ -59,16 +62,38 @@ def run_the_sync_code():
     print(f"Finished retrieving all items, finish Time: {datetime.now() - start_time}, {datetime.now()}")
 
 
-async def async_db_example():
+async def async_db_example(item_id: int):
     """
     Retrieves values from the database asynchronously.
     """
-    pass
+    start_time = datetime.now()
+    item = await my_database.async_fetch(item_id)
+    print(f"Retrieved {item}, finish Time: {datetime.now() - start_time}, {datetime.now()}")
+    return item
 
 async def run_the_async_code():
-    pass
+    start_time = datetime.now()
+    await async_db_example(1)
+    await async_db_example(3)
+    print(f"Finished retrieving all items, finish Time: {datetime.now() - start_time}, {datetime.now()}")
+
+async def hello_world():
+    await asyncio.sleep(3)
+    return "Hello  World"
+
+async def with_gather():
+    start_time = datetime.now()
+
+    my_results = await asyncio.gather(
+        async_db_example(1),
+        async_db_example(3),
+        hello_world()
+    )
+    print(f"Finished retrieving all items, finish Time: {datetime.now() - start_time}, {datetime.now()}")
+
+    print(my_results)
 
 if __name__ == "__main__":
-    run_the_sync_code()
+    # sync_db_example(2)
 
-    # asyncio.run(run_the_async_code())
+    asyncio.run(with_gather())
