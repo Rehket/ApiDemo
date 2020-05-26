@@ -54,8 +54,8 @@ def run_the_sync_code():
     Wrapper to run all the Sync code with timing. 
     """
     start_time = datetime.now()
-    sync_example(4)
-    sync_example(3)
+    sync_db_example(1)
+    sync_db_example(3)
     print(f"Finished retrieving all items, finish Time: {datetime.now() - start_time}, {datetime.now()}")
 
 
@@ -69,6 +69,6 @@ async def run_the_async_code():
     pass
 
 if __name__ == "__main__":
-    sync_example(1)
+    run_the_sync_code()
 
     # asyncio.run(run_the_async_code())
